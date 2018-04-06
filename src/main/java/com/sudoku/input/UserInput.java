@@ -1,4 +1,5 @@
 package com.sudoku.input;
+
 import com.sudoku.board.SudokuBoard;
 
 public class UserInput {
@@ -6,6 +7,7 @@ public class UserInput {
     public boolean inputRetriever() {
 
         SudokuBoard sudokuBoard = new SudokuBoard();
+        System.out.println("Welcome in SUDOKU SOLVER!");
         System.out.println(sudokuBoard);
 
         while (true) {

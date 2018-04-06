@@ -1,7 +1,6 @@
 package com.sudoku.board;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SudokuBoard {
     private ArrayList<SudokuRow> rows = new ArrayList<>();
@@ -30,19 +29,17 @@ public class SudokuBoard {
 
     public void resolveSudoku() {
 
-        int sudokuTemp = 0;
+
         int sudokuCompleted = 0;
+        int numberOfLoopsToSolve = 0;
         while (sudokuCompleted != 405) {
 
+            int sudokuTemp = 0;
             int noProgresInAllLoops = 0;
             for (SudokuRow row : getRows()) {
                 for (SudokuElement element : row.getCols()) {
-                    //sudokuCompleted = sudokuCompleted + element.getValue();
-                    sudokuTemp++;
-                    System.out.println(sudokuCompleted);
 
                     if (element.getValue() == SudokuElement.EMPTY) {
-
                         int currentRow = getRows().indexOf(row);
                         int currentCol = row.getCols().indexOf(element);
 
@@ -74,41 +71,22 @@ public class SudokuBoard {
                             noProgresInAllLoops++;
                         }
                     } else {
+                        sudokuTemp += element.getValue();
                         noProgresInAllLoops++;
-                        System.out.println("NOprogersInAllLoops: "+noProgresInAllLoops);
                     }
                 }
             }
-            if (sudokuTemp==25920){
-                sudokuCompleted=405;
-            }
-            //Set random Value from possibleValues
+            numberOfLoopsToSolve++;
 
+            if (sudokuTemp == 405) {
+                sudokuCompleted = 405;
+                System.out.println("\nSUDOKU SOLVED SUCCESSFULLY IN " + numberOfLoopsToSolve + " LOOPS!!");
+                break;
+            }
             if (noProgresInAllLoops == 81) {
-                for (SudokuRow row : getRows()) {
-                    int elementBreakLoop = 10;
-                    for (SudokuElement element : row.getCols()) {
-                        if (element.getValue() == SudokuElement.EMPTY) {
-                            int currentRow = getRows().indexOf(row);
-                            int currentCol = row.getCols().indexOf(element);
-                            //Random random = new Random();
-                            //int amountOfPossibleValues = element.getPossibleValues().size();
-                            //int i = random.nextInt(amountOfPossibleValues);
-                            for (int a : element.getPossibleValues()) {
-                                    element.setValue(a);
-                                    System.out.println("CURRANT: ROW="+currentRow+"; COL="+currentCol+"; SET Value="+a);
-                                    elementBreakLoop = a;
-                                    break;
-
-                            }
-                            break;
-                        }
-                    }
-                    if(elementBreakLoop!=10){
-                        System.out.println("elementBreakLoop = :"+elementBreakLoop);
-                        break;
-                    }
-                }
+                System.err.println("\nYOUR SUDOKU HAS MORE THAN ONE SOLUTION OR ANY VALUE IS IN WRONG PLACE." +
+                        "\nIS NOT POSSIBLE TO SOLVE.\n");
+                break;
             }
         }
     }
